@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h2= title
+  a(href='/') Go Home
+  p loggedIn : #{loggedIn}!
+  p This is the json web token for reference 
+  h4= jwtToken
+  p #{JSON.stringify(user, null, 2)}!
+  a(href='/signing-out') Signing Out
+
+

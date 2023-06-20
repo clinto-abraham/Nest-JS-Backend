@@ -1,0 +1,63 @@
+{
+  "name": "clinto-cv-express.js-backend",
+  "version": "1.0.1",
+  "private": true,
+  "description": "RESTful API using Node.js, Express, AWS S3, MySQL, Sequelize migration, Joi validation, and middleware in API requests that allows users to upload and manage files.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "jest",
+    "up": "npx sequelize-cli db:migrate",
+    "down": "npx sequelize-cli db:migrate:undo",
+    "pug": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javascript-contribution/express.js.git"
+  },
+  "keywords": [
+    "AWS",
+    "S3",
+    "Express.js",
+    "MySQL",
+    "JOI",
+    "middleware",
+    "auth0",
+    "stripe"
+  ],
+  "author": "Clinto Abraham Ayamkudiyil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/javascript-contribution/express.js/issues"
+  },
+  "homepage": "https://github.com/javascript-contribution/express.js#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.335.0",
+    "@aws-sdk/s3-request-presigner": "^3.335.0",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "~1.4.6",
+    "cors": "^2.8.5",
+    "debug": "~4.3.4",
+    "dotenv": "16.0.3",
+    "express": "^4.18.2",
+    "express-openid-connect": "^2.16.0",
+    "helmet": "^7.0.0",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0",
+    "pg-hstore": "^2.3.4",
+    "pug": "^3.0.2",
+    "sequelize": "^6.31.1",
+    "sharp": "^0.32.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "jest": "^29.5.0",
+    "puppeteer": "^20.5.0",
+    "sequelize-cli": "^6.6.0"
+  }
+}

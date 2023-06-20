@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}, You are logged in with email id : #{user.email}!
+  a(href='/profile') See Profile Details
+  p loggedIn: #{loggedIn},
+  
+  
+  br
+  a(href='/signing-out') Signing out
+
+ 
+
+

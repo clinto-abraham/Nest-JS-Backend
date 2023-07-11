@@ -8,7 +8,8 @@ const path = require("path");
 const { auth0config } = require("./src/config/auth0");
 const corsOptionsConfig = require("./src/config/cors");
 const { express, auth } = require("./src/commons");
-const { sequelizeInstance } = require("./db/connection");
+// const { sequelizeInstance } = require("./db/connection");
+const { runMongoDB } = require("./src/config/db_connect");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -41,7 +42,8 @@ app.use(upload.single("file"));
 require("./src/routes")(app);
 
 app.listen(port, async () => {
-  await sequelizeInstance();
+  await runMongoDB().catch(console.dir);
+  // await sequelizeInstance();
   console.dir(
     `Clinto personal API - Express.js Backend app listening on port ${port}`
   );

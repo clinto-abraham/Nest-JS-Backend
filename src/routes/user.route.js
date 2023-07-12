@@ -1,32 +1,46 @@
 module.exports = (app) => {
   const controller = require("../controllers");
-  const { requiresAuth, express } = require("../commons");
-  const middleware = require("../middleware");
+  const { express } = require("../commons");
+  // const middleware = require("../middleware");
   var router = express.Router();
 
-  router.get(
-    "/",
-    controller.usersController.home
-  );
+  router.get("/", controller.usersController.home);
+  router.get("/signing-out", controller.usersController.logout); // Logout
+  router.get("/user/:id", controller.usersController.getUserByID);
+  router.post("/user", controller.usersController.createUser);
 
-  router.get(
-    "/signing-out",
-    requiresAuth(),
-    controller.usersController.logout
-  ); // Logout
-
-  router.get(
-    "/profile",
-    requiresAuth(),
-    middleware.userValidate,
-    controller.usersController.profile
-  ); // Retrieve a jwt token with email
-
-  router.get(
-    "/api/v1/users",
-    middleware.auth,
-    controller.usersController.getAllUsers
-  );
-
-  app.use("/", router);
+  app.use("/api/v1", router);
 };
+
+// module.exports = (app) => {
+//   const controller = require("../controllers");
+//   const { requiresAuth, express } = require("../commons");
+//   const middleware = require("../middleware");
+//   var router = express.Router();
+
+//   router.get(
+//     "/",
+//     controller.usersController.home
+//   );
+
+//   router.get(
+//     "/signing-out",
+//     requiresAuth(),
+//     controller.usersController.logout
+//   ); // Logout
+
+//   router.get(
+//     "/profile",
+//     requiresAuth(),
+//     middleware.userValidate,
+//     controller.usersController.profile
+//   ); // Retrieve a jwt token with email
+
+//   router.get(
+//     "/api/v1/users",
+//     middleware.auth,
+//     controller.usersController.getAllUsers
+//   );
+
+//   app.use("/", router);
+// };

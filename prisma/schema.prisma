@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_DB_URL")
+}
+
+// Address is an embedded document
+type Address {
+  addressId String @default(uuid()) @map("_id") @db.ObjectId
+  street    String
+  city      String
+  state     String
+  zip       String
+}
+
+// Sub is an embedded document
+type Sub {
+  id         String                 @default(uuid()) @map("_id") @db.ObjectId
+  credential additionalCreditional?
+}
+
+// Credential is an embedded document
+type additionalCreditional {
+  id           String    @default(uuid()) @map("_id") @db.ObjectId
+  createdAt    DateTime  @default(now())
+  dateOfExpiry DateTime?
+  username     String
+  password     String
+}
+
+// Credential is an embedded document
+model Credential {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime   @default(now())
+  dateOfExpiry DateTime?
+  username     String
+  password     String
+  Accounts     Accounts[]
+}
+
+// ThirdPartyDetails is an embedded document
+model ThirdPartyDetails {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  accLink    String
+  accName    String
+  accPhoto   String?
+  Accounts   Accounts[]
+  envSecrets envSecrets[]
+}
+
+model User {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime     @default(now())
+  name         String?
+  photo        String?
+  email        String       @unique
+  contact      String?
+  lastLoggedIn DateTime?    @default(now())
+  address      Address[]
+  accounts     Accounts[]
+  env          envSecrets[]
+}
+
+model Accounts {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  contact         Int
+  recoveryEmail   String?
+  recoveryContact Int?
+  twoFactorAuth   Boolean?
+  status          String?
+
+  credential        Credential?        @relation(fields: [credentialId], references: [id])
+  thirdPartyDetails ThirdPartyDetails? @relation(fields: [thirdPartyDetailsId], references: [id])
+  User              User?              @relation(fields: [userId], references: [id])
+
+  userId              String? @db.ObjectId
+  credentialId        String? @db.ObjectId
+  thirdPartyDetailsId String? @db.ObjectId
+}
+
+model envSecrets {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  dateOfExpiry DateTime?
+  key          String
+  value        String
+
+  thirdPartyDetails   ThirdPartyDetails? @relation(fields: [thirdPartyDetailsId], references: [id])
+  thirdPartyDetailsId String?            @db.ObjectId
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String? @db.ObjectId
+}

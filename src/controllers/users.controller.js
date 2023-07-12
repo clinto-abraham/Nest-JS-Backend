@@ -1,71 +1,108 @@
-const { jwt } = require("../commons");
-const { AUTH0_SECRET } = require("../environments");
+// const { jwt } = require("../commons");
+// const { AUTH0_SECRET } = require("../environments");
 const { userServices } = require("../services/db.service/user.services");
 
 exports.usersController = class usersController {
-  static async home(req, res) {
-    const loggedIn = req.oidc.isAuthenticated();
-    if (loggedIn) {
-      const user = req.oidc.user;
-      const email = user.email;
-
-      const foundUser = await userServices.findByEmailDB(email, res);
-      if (foundUser) {
-        await userServices.updateByQuery(loggedIn, email, res);
-      } else {
-        await userServices.createEmailDB(email, loggedIn, res);
-      }
-      return res.render("index", {
-        title: "Express.js Application Home",
-        loggedIn,
-        user,
-      });
-    } else {
-      return res.render("login", {
-        title: "You are logged out from the Express.js Application",
-      });
-    }
-  }
-
-  static async logout(req, res) {
-    const loggedIn = req.oidc.isAuthenticated();
-    const { email } = req.oidc.user;
-    const updatedUser = await userServices.updateByQuery(!loggedIn, email, res);
-
-    if (updatedUser) return res.redirect(301, "/logout");
-  }
-
-  static async profile(req, res) {
-    const user = req.oidc.user;
-    const email = user.email;
-    const loggedIn = req.oidc.isAuthenticated();
-    if (loggedIn) {
-      const jwtToken = jwt.sign({ email }, AUTH0_SECRET);
-      console.dir(`Bearer ${jwtToken}`);
-
-      const foundUser = await userServices.findByEmailDB(email, res);
-      if (foundUser) {
-        await userServices.updateByQuery(loggedIn, email, res);
-      } else {
-        await userServices.createEmailDB(email, loggedIn, res);
-      }
-      return res.render("profile", {
-        title: "Profile",
-        loggedIn,
-        user,
-        jwtToken,
-      });
-    } else {
-      return res.redirect(301, "/login");
-    }
-  }
-
   static async getAllUsers(req, res) {
     return res.status(200).json({
       postgres: await userServices.findAllDB(res),
     });
   }
+
+  static async getUserByID(req, res) {
+    return res.status(200).json({
+      postgres: await userServices.findAllDB(res),
+    });
+  }
+
+  static async createUser(req, res) {
+    return res.status(200).json({
+      postgres: await userServices.findAllDB(res),
+    });
+  }
+
+  static async home(req, res) {
+    return res
+      .status(200)
+      .json({ message: "You have successfully connected to backend service" });
+  }
+
+  static async logout(req, res) {
+    return res.status(200).json({
+      message:
+        "You have successfully logged out and disconnected from all Database",
+    });
+  }
 };
+
+// const { jwt } = require("../commons");
+// const { AUTH0_SECRET } = require("../environments");
+// const { userServices } = require("../services/db.service/user.services");
+
+// exports.usersController = class usersController {
+//   static async home(req, res) {
+//     const loggedIn = req.oidc.isAuthenticated();
+//     if (loggedIn) {
+//       const user = req.oidc.user;
+//       const email = user.email;
+
+//       const foundUser = await userServices.findByEmailDB(email, res);
+//       if (foundUser) {
+//         await userServices.updateByQuery(loggedIn, email, res);
+//       } else {
+//         await userServices.createEmailDB(email, loggedIn, res);
+//       }
+//       return res.render("index", {
+//         title: "Express.js Application Home",
+//         loggedIn,
+//         user,
+//       });
+//     } else {
+//       return res.render("login", {
+//         title: "You are logged out from the Express.js Application",
+//       });
+//     }
+//   }
+
+//   static async logout(req, res) {
+//     const loggedIn = req.oidc.isAuthenticated();
+//     const { email } = req.oidc.user;
+//     const updatedUser = await userServices.updateByQuery(!loggedIn, email, res);
+
+//     if (updatedUser) return res.redirect(301, "/logout");
+//   }
+
+//   static async profile(req, res) {
+//     const user = req.oidc.user;
+//     const email = user.email;
+//     const loggedIn = req.oidc.isAuthenticated();
+//     if (loggedIn) {
+//       const jwtToken = jwt.sign({ email }, AUTH0_SECRET);
+//       console.dir(`Bearer ${jwtToken}`);
+
+//       const foundUser = await userServices.findByEmailDB(email, res);
+//       if (foundUser) {
+//         await userServices.updateByQuery(loggedIn, email, res);
+//       } else {
+//         await userServices.createEmailDB(email, loggedIn, res);
+//       }
+//       return res.render("profile", {
+//         title: "Profile",
+//         loggedIn,
+//         user,
+//         jwtToken,
+//       });
+//     } else {
+//       return res.redirect(301, "/login");
+//     }
+//   }
+
+//   static async getAllUsers(req, res) {
+//     return res.status(200).json({
+//       postgres: await userServices.findAllDB(res),
+//     });
+//   }
+// };
 
 //     static async getUserByQuery(req, res) {
 //     const { email } = req.body

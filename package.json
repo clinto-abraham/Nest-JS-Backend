@@ -5,7 +5,7 @@
   "description": "RESTful API using Node.js, Express, AWS S3, MySQL, Sequelize migration, Joi validation, and middleware in API requests that allows users to upload and manage files.",
   "main": "server.js",
   "scripts": {
-    "start": "server.js",
+    "start": "nodemon server.js",
     "dev": "npx prisma generate && nodemon server.js",
     "test": "jest",
     "up": "npx sequelize-cli db:migrate",

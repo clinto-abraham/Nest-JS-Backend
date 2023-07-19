@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const controller = require("../controllers");
-  const middleware = require("../middleware");
+  // const middleware = require("../middleware");
   var router = require("express").Router();
 
   router.get("/", controller.rootController.home);

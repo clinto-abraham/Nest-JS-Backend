@@ -6,9 +6,9 @@ const helmet = require("helmet");
 const multer = require("multer");
 const path = require("path");
 
-const { auth0config } = require("./src/config/auth0");
+// const { auth0config } = require("./src/config/auth0");
 const corsOptionsConfig = require("./src/config/cors");
-const { express, auth } = require("./src/commons");
+const { express } = require("./src/commons");
 const { runMongoDB } = require("./src/db/prisma/mongodb");
 // const { sequelizeInstance } = require('./db/connection')
 
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 });
 app.use(helmet());
 app.use(cors(corsOptionsConfig));
-app.use(auth(auth0config)); // auth router attaches /login, /logout, and /callback routes to the baseURL
+// app.use(auth(auth0config)); // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(
   morgan("dev", {
     skip: function (req, res) {
